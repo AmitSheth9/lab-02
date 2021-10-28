@@ -1,5 +1,5 @@
 
-const { writeFile, readFile } = require('fs/promises');
+const { writeFile, readFile, readdir } = require('fs/promises');
 const path = require('path');
 const shortid = require('shortid');
 
@@ -26,7 +26,9 @@ class SimpleDb {
   }
 
   getAll() {
-    
+    return readdir(this.rootDir)
+      .then(files => Promise.all(files.map(file => this.get(file.id))));
+
   }
 
 }

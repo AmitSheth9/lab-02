@@ -7,7 +7,7 @@ describe('SimpleDb', () => {
   beforeEach(() => {
     return rm(rootDir, { force: true, recursive: true }).then(() => mkdir(rootDir, { recursive: true }));
   });
-  it.only('saves and assign a unique id and serialize the object', () => {
+  it('saves and assign a unique id and serialize the object', () => {
     const db = new SimpleDb(rootDir);
     const obj = {
       stuff: 'some stuff',
@@ -25,5 +25,24 @@ describe('SimpleDb', () => {
       
     
   }); 
-    
+
+  it.only ('reads dir and returns array of all objects', () => {
+    const newDb = new SimpleDb(rootDir);
+    const obj1 = {
+      stuff: 'some stuff in here',
+      data: 'some data'
+    };
+    const obj2 = {
+      stuff: 'different stuff',
+      data: 'different data'
+    };
+    const objArr = [obj1, obj2];
+  
+  
+    return newDb.save(obj1)
+      .then(() => newDb.save(obj2))
+      .then(() => newDb.save(obj2))
+      .then(() => newDb.getAll())
+      .then((something) => expect(something).toEqual(objArr));
+  }); 
 });
