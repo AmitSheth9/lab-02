@@ -1,19 +1,41 @@
-const { writeFile } = require('fs/promises');
+
+const { writeFile, readFile } = require('fs/promises');
 const path = require('path');
 const shortid = require('shortid');
 
 class SimpleDb {
-  // eslint-disable-next-line no-unused-vars
   constructor(rootDir) {
-    const fileName = `${shortid.generate()}.txt`;
-    this.file = path.join(rootDir, fileName);
+    this.rootDir = rootDir;
   }
   save(obj) {
-    obj['id'] = this.fileName;
-    const stringFile = JSON.stringify(obj);
-    return writeFile(this.file, stringFile);
+    obj.id = shortid.generate();
+    this.fileName = `${obj.id}.json`;
+    this.filePath = path.join(this.rootDir, this.fileName);
+    console.log(obj);
+    const stringObj = JSON.stringify(obj);
+    console.log(stringObj);
+    return writeFile(this.filePath, stringObj);
   }
-}
 
+  get(id) {
+    const fileName = `${id}.json`;
+    this.filePath = path.join(this.rootDir, fileName);
+    const parsedFile = readFile(this.filePath, 'utf8').then((file) => JSON.parse(file)
+    );
+    return parsedFile;
+  }
+
+  getAll() {
+    
+  }
+
+}
+/*
+const rootDir = './__tests__/root';
+const consoleDb = new SimpleDb(rootDir);
+const obj = { test: 'test purposes' };
+console.log(consoleDb.save(obj));
+
+*/
 module.exports = SimpleDb;
 

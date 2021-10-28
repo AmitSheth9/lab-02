@@ -1,5 +1,4 @@
 const { mkdir, rm } = require('fs/promises'); 
-
 // eslint-disable-next-line no-unused-vars
 const SimpleDb = require('../src/SimpleDb');
 
@@ -13,14 +12,18 @@ describe('SimpleDb', () => {
     const obj = {
       stuff: 'some stuff',
     };
+    // eslint-disable-next-line no-unused-vars
     const objAfter = {
       stuff: 'some stuff',
-      id: expect.any(Number)
+      id: expect.any(String)
     };
     return db
       .save(obj)
+      .then(() => db.get(obj.id))
       .then((something) =>
         expect(something).toEqual(objAfter));
+      
+    
   }); 
     
 });
