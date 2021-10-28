@@ -8,6 +8,19 @@ describe('SimpleDb', () => {
   beforeEach(() => {
     return rm(rootDir, { force: true, recursive: true }).then(() => mkdir(rootDir, { recursive: true }));
   });
-it('should ')
+  it.only('saves and assign a unique id and serialize the object', () => {
+    const db = new SimpleDb(rootDir);
+    const obj = {
+      stuff: 'some stuff',
+    };
+    const objAfter = {
+      stuff: 'some stuff',
+      id: expect.any(Number)
+    };
+    return db
+      .save(obj)
+      .then((something) =>
+        expect(something).toEqual(objAfter));
+  }); 
     
 });
