@@ -11,14 +11,12 @@ class SimpleDb {
     obj.id = shortid.generate();
     this.fileName = `${obj.id}.json`;
     this.filePath = path.join(this.rootDir, this.fileName);
-    console.log(obj);
     const stringObj = JSON.stringify(obj);
-    console.log(stringObj);
     return writeFile(this.filePath, stringObj);
   }
 
   get(id) {
-    const fileName = `${id}.json`;
+    const fileName = `${id}`;
     this.filePath = path.join(this.rootDir, fileName);
     const parsedFile = readFile(this.filePath, 'utf8').then((file) => JSON.parse(file)
     );
@@ -27,7 +25,7 @@ class SimpleDb {
 
   getAll() {
     return readdir(this.rootDir)
-      .then(files => Promise.all(files.map(file => this.get(file.id))));
+      .then(files => Promise.all(files.map(file => this.get(file))));
 
   }
 
